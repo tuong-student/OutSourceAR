@@ -13,6 +13,8 @@ MonoBehaviour:
   m_Name: SoundData
   m_EditorClassIdentifier: 
   soundDic:
-    _pairs: []
+    _pairs:
+    - _key: First
+      _value: {fileID: 0}
   musicDic:
     _pairs: []

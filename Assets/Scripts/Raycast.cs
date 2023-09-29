@@ -17,6 +17,8 @@ namespace App
 
         float _rayDistanceFromCamera;
 
+        UIDebug _uiDebug;
+
         void Awake()
         {
             _arCamera = Camera.main;
@@ -25,6 +27,7 @@ namespace App
 
         void Start()
         {
+            UILoader.LoadUI<UIDebug>();
             // _uiDebug = UILoader.LoadUI<UIDebug>();
             // _uiObjectSelector = UILoader.LoadUI<UIObjectSelector>();
         }
