@@ -1,0 +1,4 @@
+{
+  "Game.UI.UIDebug": "Prefab/Game/UI/UIDebug",
+  "Game.UI.UISelector": "Prefab/Game/UI/UISelector"
+}
