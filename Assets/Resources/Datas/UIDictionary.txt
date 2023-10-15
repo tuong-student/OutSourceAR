@@ -1,4 +1,9 @@
 {
   "Game.UI.UIDebug": "Prefab/Game/UI/UIDebug",
-  "Game.UI.UISelector": "Prefab/Game/UI/UISelector"
+  "Game.UI.UISelector": "Prefab/Game/UI/UISelector",
+  "Game.UI.UITest": "Prefab/Game/UI/UITest",
+  "Game.UI.UIIntro": "Prefab/Game/UI/UIIntro",
+  "Game.UI.UITutor": "Prefab/Game/UI/UITutor",
+  "Game.UI.UIChoseLayout": "Prefab/Game/UI/UIChoseLayout",
+  "Game.UI.UIMain": "Prefab/Game/UI/UIMain",
 }
