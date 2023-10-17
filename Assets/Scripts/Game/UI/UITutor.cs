@@ -14,9 +14,6 @@ namespace Game.UI
 	{
         [SerializeField] private Button _button;
         [SerializeField] private GameObject _notifyGameObject;
-        [SerializeField] private TextMeshProUGUI _notifyText;
-
-        [SerializeField] private RectTransform showTrans, hideTrans;
 
         public static UITutor Create(Transform parent = null)
 		{
@@ -28,10 +25,19 @@ namespace Game.UI
             _button.onClick.AddListener(Next);
         }
 
-	 	IEnumerator Start()
-		{
-            yield return new WaitForSeconds(1f);
-            ShowNotify();
+        void Start()
+        {
+            UILoader.LoadUI<UIFooterPopup>().SetText("Finding Ground...");
+        }
+
+        void Update()
+        {
+            Ray ray = Camera.main.ScreenPointToRay(Vector2.zero);
+            if(Physics.Raycast(ray))
+            {
+                UILoader.LoadUI<UIFooterPopup>().SetText("Ground found, press screen to place room");
+                Next();
+            }
         }
 
 		public void Next()
@@ -40,13 +46,5 @@ namespace Game.UI
             AppManager.onCompleteStage?.Invoke();
         }
 
-		public void ShowNotify()
-		{
-            _notifyGameObject.transform.DOMove(showTrans.position, 1f).SetEase(Ease.OutFlash);
-        }
-		public void HideNotify()
-		{
-            _notifyGameObject.transform.DOMove(hideTrans.position, 1f).SetEase(Ease.InFlash);
-        }
 	}
 }

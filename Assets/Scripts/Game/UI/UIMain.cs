@@ -54,18 +54,22 @@ namespace Game.UI
             _electricBtn.SetButtonAction(() =>
             {
                 ChooseBtn(BtnType.Electric);
+                HouseManager.Instance.ShowObject(ObjectType.Electricity);
             });
             _acBtn.SetButtonAction(() =>
             {
                 ChooseBtn(BtnType.AC);
+                HouseManager.Instance.ShowObject(ObjectType.AC);
             });
             _concreteBtn.SetButtonAction(() =>
             {
                 ChooseBtn(BtnType.Concrete);
+                HouseManager.Instance.ShowObject(ObjectType.Concrete);
             });
             _furnitureBtn.SetButtonAction(() =>
             {
                 ChooseBtn(BtnType.Furniture);
+                HouseManager.Instance.ShowObject(ObjectType.Furniture);
             });
         }
 

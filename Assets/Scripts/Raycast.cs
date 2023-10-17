@@ -38,8 +38,6 @@ namespace App
             // UILoader.LoadUI<UITest>();
             _uiDebug = UILoader.LoadUI<UIDebug>();
             _uiSelector = UILoader.LoadUI<UISelector>();
-            TextAsset textAsset = Resources.Load<TextAsset>("Datas/UIDictionary");
-            Debug.Log(textAsset.text);
         }
 
         void Update()
