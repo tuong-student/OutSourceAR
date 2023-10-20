@@ -22,6 +22,7 @@ namespace Game
 
         public void ShowObject(ObjectType objectType)
         {
+            DeactivateAllItem();
             switch (objectType)
             {
                 case ObjectType.Electricity:
@@ -48,6 +49,26 @@ namespace Game
                         item.SetActive(true);
                     }
                     break;
+            }
+        }
+
+        public void DeactivateAllItem()
+        {
+            foreach(var item in _electricityAndWater)
+            {
+                item.SetActive(false);
+            }
+            foreach(var item in _concrete)
+            {
+                item.SetActive(false);
+            }
+            foreach(var item in _airPipe)
+            {
+                item.SetActive(false);
+            }
+            foreach(var item in _furniture)
+            {
+                item.SetActive(false);
             }
         }
     }

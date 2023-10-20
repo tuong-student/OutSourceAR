@@ -1,7 +1,6 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using Game.UI;
+using NOOD;
 using NOOD.UI;
 using UnityEngine;
 
@@ -19,6 +18,7 @@ namespace Game
 
     public class AppManager : MonoBehaviour
     {
+        [SerializeField] GameObject house;
         public static Action onCompleteStage;
         public AppStage AppStage { get; private set; }
         private bool _isLoaded;
@@ -32,13 +32,17 @@ namespace Game
         // Start is called before the first frame update
         void Start()
         {
-            
         }
 
         // Update is called once per frame
         void Update()
         {
-            if(_isLoaded) return;
+            if(!_isLoaded) 
+                LoadCurrentUI();
+        }
+
+        private void LoadCurrentUI()
+        {
             switch (AppStage)
             {
                 case AppStage.Intro:
@@ -59,7 +63,7 @@ namespace Game
                 case AppStage.ChoosingRoom:
                     // Show Choosing Room UI
                     UILoader.LoadUI<UIMain>();
-
+                    NoodyCustomCode.StartDelayFunction(LoadHouse, 0.2f);
                     _isLoaded = true;
                     break;
                 case AppStage.Showing:
@@ -75,7 +79,10 @@ namespace Game
 
         private void LoadHouse()
         {
-            
+            UIMain uIMain = UILoader.GetUI<UIMain>();
+            Vector3 position = uIMain.GetRaycastPosition();
+
+            Instantiate(house, position, Quaternion.identity);
         }
 
         private void NextStage()

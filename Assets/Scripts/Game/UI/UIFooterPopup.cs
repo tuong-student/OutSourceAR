@@ -26,18 +26,18 @@ namespace Game.UI
 
         public override void Open()
 		{
-            StartCoroutine(Appear(_notifyImage));
-            StartCoroutine(AppearText(_notifyText));
+            NoodyCustomCode.FadeInImage(_notifyImage, 0.6f, Time.deltaTime);
+            NoodyCustomCode.FadeInTextMeshUGUI(_notifyText);
         }
         public override void Close()
         {
-            StartCoroutine(Disappear(_notifyImage));
-            StartCoroutine(DisappearText(_notifyText));
+            NoodyCustomCode.FadeOutImage(_notifyImage);
+            NoodyCustomCode.FadeOutTextMeshUGUI(_notifyText);
         }
 
 		IEnumerator Disappear(Image image)
         {
-            while(image.color.a > 0.6f)
+            while(image.color.a > 0f)
             {
                 yield return null;
                 Color color = image.color;
@@ -58,7 +58,7 @@ namespace Game.UI
 
         IEnumerator Appear(Image image)
         {
-            while(image.color.a < 1)
+            while(image.color.a < 0.6f)
             {
                 yield return null;
                 Color color = image.color;

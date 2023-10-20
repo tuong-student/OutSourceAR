@@ -5,6 +5,8 @@ using UnityEngine;
 using NOOD; 
 using NOOD.UI;
 using UnityEngine.UI;
+using App;
+using TMPro;
 
 namespace Game.UI
 {
@@ -20,6 +22,11 @@ namespace Game.UI
 	{
         [SerializeField] private Color _normalColor, _chosenColor;
         [SerializeField] private CustomBtn _electricBtn, _acBtn, _concreteBtn, _furnitureBtn;
+
+        private UIDebug _uiDebug;
+        private UISelector _uiSelector;
+
+        private ARObject _previousObj;
 
         public static UIMain Create(Transform parent = null)
 		{
@@ -41,12 +48,66 @@ namespace Game.UI
 
 		void Start()
 		{
+            // _uiDebug = UILoader.LoadUI<UIDebug>();
+            _uiSelector = UILoader.LoadUI<UISelector>();
+
             _electricBtn.SetChosen(false);
             _acBtn.SetChosen(false);
             _concreteBtn.SetChosen(false);
             _furnitureBtn.SetChosen(false);
 
             SetBtnAction();
+        }
+
+        void Update()
+        {
+            Ray ray = Camera.main.ScreenPointToRay(_uiSelector.AimPosition);
+            if(Physics.Raycast(ray, out RaycastHit hit))
+            {
+                if(hit.collider.TryGetComponent<ARObject>(out ARObject aRObject))
+                {
+                    aRObject.ActiveOutline(true);
+
+                    if(_previousObj == null)
+                    {
+                        _previousObj = aRObject;
+                    }
+                    else
+                    {
+                        if(_previousObj != aRObject)
+                        {
+                            _previousObj.ActiveOutline(false);
+                            _previousObj = aRObject;
+                        }
+                    }
+                }
+                else
+                {
+                    if (!_previousObj)
+                        return;
+                    _previousObj.ActiveOutline(false);
+                }
+            }
+            else
+            {
+                if (!_previousObj)
+                    return;
+                _previousObj.ActiveOutline(false);
+            }
+        }
+
+        public Vector3 GetRaycastPosition()
+        {
+            Camera camera = Camera.main;
+            Ray raycast = camera.ScreenPointToRay(_uiSelector.AimPosition);
+            if (Physics.Raycast(raycast, out RaycastHit raycastHit))
+            {
+                return raycastHit.point;
+            }
+            else
+            {
+                return Vector3.zero;
+            }
         }
 
         private void SetBtnAction()
