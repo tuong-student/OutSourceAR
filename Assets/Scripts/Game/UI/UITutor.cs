@@ -48,7 +48,6 @@ namespace Game.UI
 
         public void Next()
         {
-            Close();
             AppManager.onCompleteStage?.Invoke();
         }
 
@@ -57,7 +56,8 @@ namespace Game.UI
             if (_isHit)
             {
                 UILoader.CloseUI<UIFooterPopup>();
-                Next();
+                Close();
+                UILoader.LoadUI<UILoading>().SetOnCompleteAction(Next);
             }
             else
             {

@@ -10,8 +10,8 @@ namespace Game
     {
         Intro,
         ChoosingLayout,
-        Tutor, // Guild player to place a small piece of house, this will be the center of the house
         ChoosingRoom, // Player choose the room to be show
+        Tutor, // Guild player to place a small piece of house, this will be the center of the house
         Showing,
         Exit
     }
@@ -55,19 +55,20 @@ namespace Game
                     UILoader.LoadUI<UIChoseLayout>();
                     _isLoaded = true;
                     break;
+                case AppStage.ChoosingRoom:
+                    // Show Choosing Room UI
+                    UILoader.LoadUI<UIChoosingRoom>();
+                    _isLoaded = true;
+                    break;
                 case AppStage.Tutor:
                     // Show small tutorial gif or video 
                     UILoader.LoadUI<UITutor>();
                     _isLoaded = true;
                     break;
-                case AppStage.ChoosingRoom:
-                    // Show Choosing Room UI
-                    UILoader.LoadUI<UIMain>();
-                    NoodyCustomCode.StartDelayFunction(LoadHouse, 0.2f);
-                    _isLoaded = true;
-                    break;
                 case AppStage.Showing:
                     // Main active of the app
+                    UILoader.LoadUI<UIMain>();
+                    NoodyCustomCode.StartDelayFunction(LoadHouse, 0.2f);
                     _isLoaded = true;
                     break;
                 case AppStage.Exit:
@@ -88,6 +89,7 @@ namespace Game
         private void NextStage()
         {
             AppStage++;
+            Debug.Log(AppStage.ToString());
             _isLoaded = false;
         }
     }
