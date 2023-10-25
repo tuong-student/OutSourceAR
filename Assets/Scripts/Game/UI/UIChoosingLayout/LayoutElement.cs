@@ -10,11 +10,13 @@ public class LayoutElement : MonoBehaviour, IPointerClickHandler
 {
     private UIChoseLayout _uIChoseLayout;
     private RectTransform _rect;
-    public Vector2 ScreenPosition
+    [SerializeField] Canvas _canvas;
+    [SerializeField] RectTransform _canvasTransform;
+    public Vector2 LocalPosition
     {
         get
         {
-            return _rect.anchoredPosition;
+            return this.transform.localPosition;
         }
     }
 
@@ -32,7 +34,6 @@ public class LayoutElement : MonoBehaviour, IPointerClickHandler
     void Start()
     {
         _uIChoseLayout = UILoader.GetUI<UIChoseLayout>();
-        
     }
 
     // Update is called once per frame

@@ -5,6 +5,7 @@ using UnityEngine;
 using NOOD; 
 using NOOD.UI;
 using UnityEngine.UI;
+using System.Linq.Expressions;
 
 namespace Game.UI
 {
@@ -12,7 +13,8 @@ namespace Game.UI
 	{
         [SerializeField] private Button _button;
         [SerializeField] private ScrollRect _scrollRect;
-        [SerializeField] float _positionX;
+        [SerializeField] private List<LayoutElement> _layoutElements = new List<LayoutElement>();
+        private float _positionX;
         private LayoutElement _chosenLayoutElement;
 
         public static UIChoseLayout Create(Transform parent = null)
@@ -27,7 +29,7 @@ namespace Game.UI
 
 		void Update()
 		{
-            _scrollRect.horizontalNormalizedPosition = _positionX;
+            _positionX = _scrollRect.horizontalNormalizedPosition;
         }
 
 		public void Next()
@@ -38,37 +40,44 @@ namespace Game.UI
 
 		public void SetChosenLayoutElement(LayoutElement layoutElement)
 		{
+            Debug.Log("Choose Element " + layoutElement.name);
             _chosenLayoutElement = layoutElement;
-            ScrollToElement();
+            ScrollToElementLoop(_layoutElements.IndexOf(_chosenLayoutElement));
         }
 
-		public void ScrollToElement()
+		public void ScrollToElementLoop(int elementIndex)
 		{
+            float targetPosition = (float)elementIndex / (float)(_layoutElements.Count - 1);
             CoroutineScript coroutineScript = NoodyCustomCode.CreateNewCoroutineObj();
             coroutineScript.StartCoroutineLoop(() =>
             {
-				if(_chosenLayoutElement.ScreenPosition.x > 0.3f)
-				{
-                    ScrollToLeft(0.1f);
-                }
-				else if(_chosenLayoutElement.ScreenPosition.x < -0.3f)
-				{
-                    ScrollToRight(0.1f);
-				}
-				else
-				{
+                ScrollToPosition(targetPosition, 0.5f);
+                if(Mathf.Abs(_scrollRect.horizontalNormalizedPosition - targetPosition) < 0.03f)
+                {
                     coroutineScript.Complete();
                 }
-            }, Time.deltaTime);
+            }, 0.2f);
         }
 
-		public void ScrollToLeft(float speed = 1)
-		{
-            _positionX += Time.deltaTime * speed;
+        public void ScrollToPosition(float position, float speed = 1)
+        {
+            if(position > _scrollRect.horizontalNormalizedPosition)
+            {
+                _positionX = Mathf.Clamp(_positionX + Time.deltaTime * speed, 0, position);
+            }
+            else if(position < _scrollRect.horizontalNormalizedPosition)
+            {
+                _positionX = Mathf.Clamp(_positionX - Time.deltaTime * speed, position, 1);
+            }
+            _scrollRect.horizontalNormalizedPosition = _positionX;
         }
-		public void ScrollToRight(float speed = 1)
-		{
-            _positionX -= Time.deltaTime * speed;
-        }
+
+        // public void ScrollToElement(int elementIndex)
+        // {
+        //     Debug.Log("Index " + elementIndex);
+        //     float elementPositionX = (float)elementIndex / (float)(_layoutElements.Count - 1);
+        //     Debug.Log("elementPositionX " + elementPositionX);
+        //     ScrollToPosition(elementPositionX);
+        // }
 	}
 }
