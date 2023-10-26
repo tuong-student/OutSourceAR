@@ -35,6 +35,9 @@ namespace Game.UI
 
 		void Awake()
 		{
+            // Read data from Global.data to Instantiate room
+            
+
             _electricBtn._normalColor = _normalColor;
             _acBtn._normalColor = _normalColor;
             _concreteBtn._normalColor = _normalColor;

@@ -14,6 +14,7 @@ namespace Game.UI
         [SerializeField] private Button _button;
         [SerializeField] private ScrollRect _scrollRect;
         [SerializeField] private List<LayoutElement> _layoutElements = new List<LayoutElement>();
+        [SerializeField] private LayoutInfoManager _layoutInfoManager;
         private float _positionX;
         private LayoutElement _chosenLayoutElement;
 
@@ -25,11 +26,13 @@ namespace Game.UI
 		void Awake()
 		{
             _button.onClick.AddListener(Next);
+            _scrollRect.onValueChanged.AddListener(UpdatePositionX);
+            _layoutInfoManager ??= GetComponent<LayoutInfoManager>();
         }
 
-		void Update()
-		{
-            _positionX = _scrollRect.horizontalNormalizedPosition;
+        private void UpdatePositionX(Vector2 vector2)
+        {
+            _positionX = vector2.x;
         }
 
 		public void Next()
@@ -40,19 +43,29 @@ namespace Game.UI
 
 		public void SetChosenLayoutElement(LayoutElement layoutElement)
 		{
-            Debug.Log("Choose Element " + layoutElement.name);
+            if(_chosenLayoutElement != null && _chosenLayoutElement == layoutElement)
+            {
+                // Move to next scene with this layoutElement
+                Global.data = layoutElement.GetData();
+                Next();
+                return;
+            }
+
             _chosenLayoutElement = layoutElement;
+            Debug.Log("_chosenLayoutElement null: " + _chosenLayoutElement == null);
             ScrollToElementLoop(_layoutElements.IndexOf(_chosenLayoutElement));
+            _layoutInfoManager.UpdateData(layoutElement.GetData());
         }
 
 		public void ScrollToElementLoop(int elementIndex)
 		{
+            Debug.Log("Scroll To Element Loop");
             float targetPosition = (float)elementIndex / (float)(_layoutElements.Count - 1);
             CoroutineScript coroutineScript = NoodyCustomCode.CreateNewCoroutineObj();
             coroutineScript.StartCoroutineLoop(() =>
             {
                 ScrollToPosition(targetPosition, 0.5f);
-                if(Mathf.Abs(_scrollRect.horizontalNormalizedPosition - targetPosition) < 0.03f)
+                if(Mathf.Abs(_scrollRect.horizontalNormalizedPosition - targetPosition) < 0.001f)
                 {
                     coroutineScript.Complete();
                 }
@@ -71,13 +84,5 @@ namespace Game.UI
             }
             _scrollRect.horizontalNormalizedPosition = _positionX;
         }
-
-        // public void ScrollToElement(int elementIndex)
-        // {
-        //     Debug.Log("Index " + elementIndex);
-        //     float elementPositionX = (float)elementIndex / (float)(_layoutElements.Count - 1);
-        //     Debug.Log("elementPositionX " + elementPositionX);
-        //     ScrollToPosition(elementPositionX);
-        // }
 	}
 }

@@ -10,7 +10,6 @@ namespace Game
     {
         Intro,
         ChoosingLayout,
-        ChoosingRoom, // Player choose the room to be show
         Tutor, // Guild player to place a small piece of house, this will be the center of the house
         Showing,
         Exit
@@ -53,11 +52,6 @@ namespace Game
                 case AppStage.ChoosingLayout:
                     // Show Choosing layout UI
                     UILoader.LoadUI<UIChoseLayout>();
-                    _isLoaded = true;
-                    break;
-                case AppStage.ChoosingRoom:
-                    // Show Choosing Room UI
-                    UILoader.LoadUI<UIChoosingRoom>();
                     _isLoaded = true;
                     break;
                 case AppStage.Tutor:

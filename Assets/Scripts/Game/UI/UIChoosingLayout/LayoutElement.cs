@@ -8,6 +8,7 @@ using NOOD.UI;
 
 public class LayoutElement : MonoBehaviour, IPointerClickHandler
 {
+    [SerializeField] private LayoutELementSO _data;
     private UIChoseLayout _uIChoseLayout;
     private RectTransform _rect;
     [SerializeField] Canvas _canvas;
@@ -36,9 +37,9 @@ public class LayoutElement : MonoBehaviour, IPointerClickHandler
         _uIChoseLayout = UILoader.GetUI<UIChoseLayout>();
     }
 
-    // Update is called once per frame
-    void Update()
+    public LayoutELementSO GetData()
     {
-        
+        return _data;
     }
+
 }
