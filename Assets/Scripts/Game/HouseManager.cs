@@ -32,13 +32,13 @@ namespace Game
                     }
                     break;
                 case ObjectType.AC:
-                    foreach(var item in _concrete)
+                    foreach(var item in _airPipe)
                     {
                         item.SetActive(true);
                     }
                     break;
                 case ObjectType.Concrete:
-                    foreach(var item in _airPipe)
+                    foreach(var item in _concrete)
                     {
                         item.SetActive(true);
                     }
@@ -56,18 +56,22 @@ namespace Game
         {
             foreach(var item in _electricityAndWater)
             {
+                if(item.activeInHierarchy == false) continue;
                 item.SetActive(false);
             }
             foreach(var item in _concrete)
             {
+                if(item.activeInHierarchy == false) continue;
                 item.SetActive(false);
             }
             foreach(var item in _airPipe)
             {
+                if(item.activeInHierarchy == false) continue;
                 item.SetActive(false);
             }
             foreach(var item in _furniture)
             {
+                if(item.activeInHierarchy == false) continue;
                 item.SetActive(false);
             }
         }

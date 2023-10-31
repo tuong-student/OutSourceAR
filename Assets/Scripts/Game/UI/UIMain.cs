@@ -7,6 +7,7 @@ using NOOD.UI;
 using UnityEngine.UI;
 using App;
 using TMPro;
+using DG.Tweening;
 
 namespace Game.UI
 {
@@ -22,11 +23,18 @@ namespace Game.UI
 	{
         [SerializeField] private Color _normalColor, _chosenColor;
         [SerializeField] private CustomBtn _electricBtn, _acBtn, _concreteBtn, _furnitureBtn;
+        [SerializeField] private Button _takeScreenshotBtn, _backBtn, _moreBtn;
+        [SerializeField] private GameObject _inventoryGO, _inventoryPanel;
+        [SerializeField] private GameObject _SSObject;
+        [SerializeField] private RawImage _rawImage;
+        [SerializeField] private GameObject _SSBelowPosition, _SSHidePosition;
+
+        public Func<Texture2D> OnTakeScreenshot;
 
         private UIDebug _uiDebug;
         private UISelector _uiSelector;
-
         private ARObject _previousObj;
+        private Texture2D _screenShotImage;
 
         public static UIMain Create(Transform parent = null)
 		{
@@ -36,8 +44,16 @@ namespace Game.UI
 		void Awake()
 		{
             // Read data from Global.data to Instantiate room
-            
 
+            _takeScreenshotBtn.onClick.AddListener(() =>
+            {
+                HideUI();
+                NoodyCustomCode.StartDelayFunction(() =>
+                {
+                    _screenShotImage = OnTakeScreenshot?.Invoke();
+                }, 0.2f);
+            });
+            AppManager.OnSaveSSCallback = AnimateScreenshot;
             _electricBtn._normalColor = _normalColor;
             _acBtn._normalColor = _normalColor;
             _concreteBtn._normalColor = _normalColor;
@@ -69,7 +85,7 @@ namespace Game.UI
             {
                 if(hit.collider.TryGetComponent<ARObject>(out ARObject aRObject))
                 {
-                    aRObject.ActiveOutline(true);
+                    aRObject.ActiveOutlineAndShowInfo(true);
 
                     if(_previousObj == null)
                     {
@@ -79,7 +95,7 @@ namespace Game.UI
                     {
                         if(_previousObj != aRObject)
                         {
-                            _previousObj.ActiveOutline(false);
+                            _previousObj.ActiveOutlineAndShowInfo(false);
                             _previousObj = aRObject;
                         }
                     }
@@ -88,14 +104,52 @@ namespace Game.UI
                 {
                     if (!_previousObj)
                         return;
-                    _previousObj.ActiveOutline(false);
+                    _previousObj.ActiveOutlineAndShowInfo(false);
                 }
             }
             else
             {
                 if (!_previousObj)
                     return;
-                _previousObj.ActiveOutline(false);
+                _previousObj.ActiveOutlineAndShowInfo(false);
+            }
+        }
+        
+        public void HideUI()
+        {
+            _acBtn.gameObject.SetActive(false);
+            _backBtn.gameObject.SetActive(false);
+            _moreBtn.gameObject.SetActive(false);
+            _concreteBtn.gameObject.SetActive(false);
+            _electricBtn.gameObject.SetActive(false);
+            _furnitureBtn.gameObject.SetActive(false);
+            _takeScreenshotBtn.gameObject.SetActive(false);
+        }
+        public void ShowUI()
+        {
+            _acBtn.gameObject.SetActive(true);
+            _backBtn.gameObject.SetActive(true);
+            _moreBtn.gameObject.SetActive(true);
+            _concreteBtn.gameObject.SetActive(true);
+            _electricBtn.gameObject.SetActive(true);
+            _furnitureBtn.gameObject.SetActive(true);
+            _takeScreenshotBtn.gameObject.SetActive(true);
+        }
+
+        public void OpenInventory(bool value)
+        {
+            _inventoryGO.transform.DOKill();
+            if(value)
+            {
+                // Open
+                _inventoryPanel.SetActive(true);
+                _inventoryGO.transform.localScale = Vector3.zero;
+                _inventoryGO.transform.DOScale(1, 0.5f);
+            }
+            else
+            {
+                // Close
+                _inventoryGO.transform.DOScale(0, 0.2f).OnComplete(() => _inventoryPanel.SetActive(false));
             }
         }
 
@@ -110,6 +164,28 @@ namespace Game.UI
             else
             {
                 return Vector3.zero;
+            }
+        }
+
+        private void AnimateScreenshot(bool success, string path)
+        {
+            if(success)
+            {
+                NoodyCustomCode.StartDelayFunction(() =>
+                {
+                    ShowUI();
+                    _SSObject.SetActive(true);
+                    _rawImage.gameObject.SetActive(true);
+                    _rawImage.texture = _screenShotImage;
+                    _SSObject.transform.localScale = Vector3.one;
+                    _SSObject.transform.position = Vector3.zero;
+                    _SSObject.transform.DOScale(0.2f, 0.5f);
+                    _SSObject.transform.DOMove(_SSBelowPosition.transform.position, 0.5f);
+                    NoodyCustomCode.StartDelayFunction(() =>
+                    {
+                        _SSObject.transform.DOMove(_SSHidePosition.transform.position, 1f).SetEase(Ease.InBounce);
+                    }, 1f);
+                }, 0.2f);
             }
         }
 

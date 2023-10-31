@@ -1,8 +1,10 @@
 using System;
+using System.IO;
 using Game.UI;
 using NOOD;
 using NOOD.UI;
 using UnityEngine;
+using UnityEngine.XR.ARFoundation;
 
 namespace Game
 {
@@ -19,8 +21,12 @@ namespace Game
     {
         [SerializeField] GameObject house;
         public static Action onCompleteStage;
+        public static Action<ARObjectSO> onChooseObject;
+        public static NativeGallery.MediaSaveCallback OnSaveSSCallback;
         public AppStage AppStage { get; private set; }
         private bool _isLoaded;
+        [SerializeField] private ARPlaneManager _aRPlaneManager;
+        private GameObject chosenObject;
 
         void Awake()
         {
@@ -61,8 +67,9 @@ namespace Game
                     break;
                 case AppStage.Showing:
                     // Main active of the app
-                    UILoader.LoadUI<UIMain>();
+                    UILoader.LoadUI<UIMain>().OnTakeScreenshot += TakeScreenshot;
                     NoodyCustomCode.StartDelayFunction(LoadHouse, 0.2f);
+                    _aRPlaneManager.enabled = false;
                     _isLoaded = true;
                     break;
                 case AppStage.Exit:
@@ -76,8 +83,15 @@ namespace Game
         {
             UIMain uIMain = UILoader.GetUI<UIMain>();
             Vector3 position = uIMain.GetRaycastPosition();
+            position.y += 0.01f;
 
             Instantiate(house, position, Quaternion.identity);
+        }
+
+        public void ChoseObject(ARObjectSO aRObjectSO)
+        {
+            Debug.Log(aRObjectSO._name);
+            chosenObject = aRObjectSO._pref;
         }
 
         private void NextStage()
@@ -85,6 +99,13 @@ namespace Game
             AppStage++;
             Debug.Log(AppStage.ToString());
             _isLoaded = false;
+        }
+
+        private Texture2D TakeScreenshot()
+        {
+            Texture2D image = ScreenCapture.CaptureScreenshotAsTexture();
+            NativeGallery.SaveImageToGallery(image, "ARApp", "ScreenCapture", OnSaveSSCallback);
+            return image;
         }
     }
 

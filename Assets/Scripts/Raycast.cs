@@ -52,7 +52,7 @@ namespace App
             {
                 if(_arObject != null)
                 {
-                    _arObject.ActiveOutline(false);
+                    _arObject.ActiveOutlineAndShowInfo(false);
                     _arObject = null;
                 }
             }
@@ -76,10 +76,10 @@ namespace App
                 {
                     if (_arObject != null) 
                     {
-                        _arObject.ActiveOutline(false);
+                        _arObject.ActiveOutlineAndShowInfo(false);
                     }
                     _arObject = hitObject.GetComponent<ARObject>();
-                    _arObject.ActiveOutline(true);
+                    _arObject.ActiveOutlineAndShowInfo(true);
 
                 }
                 else return;

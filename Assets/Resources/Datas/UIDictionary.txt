@@ -8,5 +8,6 @@
   "Game.UI.UIMain": "Prefab/Game/UI/UIMain",
   "Game.UI.UIFooterPopup": "Prefab/Game/UI/UIFooterPopup",
   "Game.UI.UILoading": "Prefab/Game/UI/UILoading",
-  "Game.UI.UIChoosingRoom": "Prefab/Game/UI/UIChoosingRoom"
+  "Game.UI.UIChoosingRoom": "Prefab/Game/UI/UIChoosingRoom",
+  "Game.UI.UIInfoPanel": "Prefab/Game/UI/UIInfoPanel"
 }

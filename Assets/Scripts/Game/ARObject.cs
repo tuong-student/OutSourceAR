@@ -1,5 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
+using Game.UI;
+using NOOD.UI;
 using UnityEngine;
 
 namespace App
@@ -8,6 +10,7 @@ namespace App
     public class ARObject : MonoBehaviour
     {
         Outline _outline;
+        [SerializeField] private ARObjectSO _data;
 
         void Awake()
         {
@@ -15,9 +18,21 @@ namespace App
             _outline.enabled = false;
         }
 
-        public void ActiveOutline(bool value)
+        public void ActiveOutlineAndShowInfo(bool value)
         {
-            _outline.enabled = value;
+            if(value)
+            {
+                _outline.enabled = value;
+                if(_data == null)
+                {
+                    UILoader.LoadUI<UIInfoPanel>().SetInfoAndName(_data._name, _data._description);
+                }
+            }
+            else
+            {
+                _outline.enabled = false;
+                UILoader.CloseUI<UIInfoPanel>();
+            }
         }
 
         public string GetInfo()
