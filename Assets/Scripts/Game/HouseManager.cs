@@ -15,6 +15,7 @@ namespace Game
 
     public class HouseManager : MonoBehaviorInstance<HouseManager>
     {
+        [SerializeField] public Transform _kitchenHolder, _livingRoomHolder, _workingAreaHolder;
         [SerializeField] private GameObject[] _electricityAndWater;
         [SerializeField] private GameObject[] _concrete;
         [SerializeField] private GameObject[] _airPipe;

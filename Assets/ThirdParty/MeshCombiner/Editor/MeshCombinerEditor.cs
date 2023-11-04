@@ -3,6 +3,7 @@ using System.Text.RegularExpressions;
 using UnityEditor;
 using UnityEngine;
 
+#if UNITY_EDITOR
 [CustomEditor(typeof(MeshCombiner))]
 public class MeshCombinerEditor : Editor
 {
@@ -142,3 +143,4 @@ public class MeshCombinerEditor : Editor
 		return folderPath;
 	}
 }
+#endif

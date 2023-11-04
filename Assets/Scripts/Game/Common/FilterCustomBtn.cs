@@ -10,6 +10,7 @@ namespace Game
         [SerializeField] private TextMeshProUGUI _filterName;
         public override void SetChosen(bool value)
         {
+            // Set on UI
             if(value)
                 _filterName.color = _choseColor;
             else

@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.IO;
 using Game.UI;
 using NOOD;
@@ -19,6 +20,7 @@ namespace Game
 
     public class AppManager : MonoBehaviour
     {
+        [SerializeField] private Transform _kitchenHolder, _livingRoomHolder, _workingAreaHolder;
         [SerializeField] GameObject house;
         public static Action onCompleteStage;
         public static NativeGallery.MediaSaveCallback OnSaveSSCallback;
@@ -34,16 +36,36 @@ namespace Game
             onCompleteStage += NextStage;
         }
 
-        // Start is called before the first frame update
-        void Start()
-        {
-        }
-
         // Update is called once per frame
         void Update()
         {
             if(!_isLoaded) 
                 LoadCurrentUI();
+        }
+
+        private void ReplaceObject(List<ARObjectSO> aRObjectSOs)
+        {
+            foreach(var arObject in aRObjectSOs)
+            {
+                GameObject model = arObject._pref;
+                switch (arObject._objectKind)
+                {
+                    case ObjectKind.House:
+                        break;
+                    case ObjectKind.LivingRoom:
+                        Destroy(_livingRoomHolder.transform.GetChild(0).gameObject);
+                        Instantiate(model, _livingRoomHolder);
+                        break;
+                    case ObjectKind.WorkingArea:
+                        Destroy(_workingAreaHolder.transform.GetChild(0).gameObject);
+                        Instantiate(model, _workingAreaHolder);
+                        break;
+                    case ObjectKind.Kitchen:
+                        Destroy(_kitchenHolder.transform.GetChild(0).gameObject);
+                        Instantiate(model, _kitchenHolder);
+                        break;
+                }
+            }
         }
 
         private void LoadCurrentUI()
@@ -69,6 +91,7 @@ namespace Game
                     // Main active of the app
                     UILoader.LoadUI<UIMain>().OnTakeScreenshot += TakeScreenshot;
                     NoodyCustomCode.StartDelayFunction(LoadHouse, 0.2f);
+                    NoodyCustomCode.StartDelayFunction(GetTransform, 0.3f);
                     _aRPlaneManager.enabled = false;
                     _isLoaded = true;
                     break;
@@ -77,6 +100,13 @@ namespace Game
                     _isLoaded = true;
                     break;
             }
+        }
+
+        private void GetTransform()
+        {
+            _kitchenHolder = HouseManager.Instance._kitchenHolder;
+            _livingRoomHolder = HouseManager.Instance._livingRoomHolder;
+            _workingAreaHolder = HouseManager.Instance._workingAreaHolder;
         }
 
         private void LoadHouse()
@@ -88,11 +118,6 @@ namespace Game
             Instantiate(house, position, Quaternion.identity);
         }
 
-        public void ChoseObject(ARObjectSO aRObjectSO)
-        {
-            Debug.Log(aRObjectSO._name);
-            chosenObject = aRObjectSO._pref;
-        }
 
         private void NextStage()
         {

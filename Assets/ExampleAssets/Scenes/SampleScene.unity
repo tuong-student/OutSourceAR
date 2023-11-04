@@ -436,6 +436,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2a3fe541e42c442018c29fa1c453aafe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _kitchenHolder: {fileID: 0}
+  _livingRoomHolder: {fileID: 0}
+  _workingAreaHolder: {fileID: 0}
   house: {fileID: 2931526140849771162, guid: 3ffcf4b2472ee47fcae2b4b045bcf57f, type: 3}
   _aRPlaneManager: {fileID: 388525035}
 --- !u!1 &705507993

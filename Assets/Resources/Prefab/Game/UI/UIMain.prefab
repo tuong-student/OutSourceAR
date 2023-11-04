@@ -1655,7 +1655,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 2136, y: 0}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &3096787000253329541
@@ -2660,7 +2660,7 @@ GameObject:
   - component: {fileID: 4059647546149135065}
   - component: {fileID: 6301289201764115536}
   - component: {fileID: 4350547886259399359}
-  - component: {fileID: 6581153082455307417}
+  - component: {fileID: 2105610069383793369}
   m_Layer: 5
   m_Name: Inventory
   m_TagString: Untagged
@@ -2733,7 +2733,7 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &6581153082455307417
+--- !u!114 &2105610069383793369
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -2742,16 +2742,16 @@ MonoBehaviour:
   m_GameObject: {fileID: 6311147875471322041}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2119598e6a4ee4119a93ac3b2b47a241, type: 3}
+  m_Script: {fileID: 11500000, guid: b313bdf43e104b84392f87cff1910d67, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _inventoryElementPref: {fileID: 5045576897034756}
   _content: {fileID: 1949249422826448830}
   _arObjectData:
+  - {fileID: 11400000, guid: 281362b2b65300449934055afc8e1bef, type: 2}
+  - {fileID: 11400000, guid: baaa67b0b9c08ff45835ae0e051ba565, type: 2}
   - {fileID: 11400000, guid: ff3d6350ba57966498a281fefbc01e84, type: 2}
-  - {fileID: 11400000, guid: 281362b2b65300449934055afc8e1bef, type: 2}
-  - {fileID: 11400000, guid: 281362b2b65300449934055afc8e1bef, type: 2}
-  _chosenObject: []
+  _chosenObjects: []
   _addToYourSpaceBtn: {fileID: 9053271489075973705}
   _all: {fileID: 3609252680410363465}
   _livingRoom: {fileID: 5868746631865851550}

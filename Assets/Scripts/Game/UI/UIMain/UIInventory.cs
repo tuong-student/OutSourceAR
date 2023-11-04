@@ -26,7 +26,7 @@ namespace Game
         [SerializeField] private InventoryElement _inventoryElementPref;
         [SerializeField] private GameObject _content;
         [SerializeField] private List<ARObjectSO> _arObjectData = new List<ARObjectSO>();
-        [SerializeField] private List<ARObjectSO> _chosenObject = new List<ARObjectSO>();
+        [SerializeField] private List<ARObjectSO> _chosenObjects = new List<ARObjectSO>();
         [SerializeField] private Button _addToYourSpaceBtn;
 
         [SerializeField] private FilterCustomBtn _all, _livingRoom, _workingArea, _kitchen;
@@ -35,6 +35,7 @@ namespace Game
         void Awake()
         {
             _inventoryElementPref.gameObject.SetActive(false);
+            DisplayDataList(_arObjectData);
         }
 
         void Start()
@@ -91,7 +92,7 @@ namespace Game
             }
             FilterSearch(filterType);
         }
-        public void FilterSearch(FilterType filterType)
+        private void FilterSearch(FilterType filterType)
         {
             switch (filterType)
             {
@@ -119,15 +120,17 @@ namespace Game
             for(int i = 0; i < datasToDisplay.Count; i++) 
             {
                 ARObjectSO data = datasToDisplay[i];
-                InventoryElement _inventoryElement;
                 if(i < _inventoryElements.Count)
                 {
+                    Debug.Log("get old");
+                    InventoryElement _inventoryElement;
                     _inventoryElement = _inventoryElements[i];
                     _inventoryElement.gameObject.SetActive(true);
                     _inventoryElement.DisplayData(data);
                 }
                 else
                 {
+                    Debug.Log("get new");
                     CreateNewInventoryElement(data);
                 }
             }
@@ -135,24 +138,50 @@ namespace Game
 
         private InventoryElement CreateNewInventoryElement(ARObjectSO data)
         {
-            InventoryElement _inventoryElement = Instantiate(_inventoryElementPref, _content.transform);
-            _inventoryElement.gameObject.SetActive(true);
-            _inventoryElement.DisplayData(data);
-            _inventoryElement.OnPress += AddToChosenObjectList;
-            return _inventoryElement;
+            InventoryElement inventoryElement = Instantiate(_inventoryElementPref, _content.transform);
+            inventoryElement.gameObject.SetActive(true);
+            inventoryElement.DisplayData(data);
+            inventoryElement.OnPress += AddToChosenObjectList;
+            _inventoryElements.Add(inventoryElement);
+            return inventoryElement;
         }
 
         public void AddToChosenObjectList(ARObjectSO objectSO)
         {
-            if(_chosenObject.Contains(objectSO))
+            if(_chosenObjects.Contains(objectSO))
             {
-                _chosenObject.Remove(objectSO);
+                _chosenObjects.Remove(objectSO);
             }
             else
             {
-                _chosenObject.Add(objectSO);
+                // Check if any object have the same type in the list
+                if(_chosenObjects.Any(x => x._objectKind == objectSO._objectKind))
+                {
+                    ARObjectSO objectSameKind = _chosenObjects.First(x => x._objectKind == objectSO._objectKind);
+                    _chosenObjects.Remove(objectSameKind);
+                }
+                _chosenObjects.Add(objectSO);
             }
-            
+            UpdateElement();
+        }
+        private void UpdateElement()
+        {
+            foreach(var element in _inventoryElements)
+            {
+                if(_chosenObjects.Contains(element.GetData()))
+                {
+                    element.Choose();
+                }
+                else
+                {
+                    element.UnChose();
+                }
+            }
+        }
+
+        private void PlaceChosenObject()
+        {
+            // Replace chosen Object
         }
     }
 }

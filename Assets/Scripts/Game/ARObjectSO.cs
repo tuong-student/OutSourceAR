@@ -6,7 +6,7 @@ namespace Game
 {
     public enum ObjectKind
     {
-        House,
+        House, // This is water pile, electric wire, air...
         LivingRoom,
         WorkingArea,
         Kitchen

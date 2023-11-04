@@ -19,7 +19,7 @@ namespace Game
         private ARObjectSO data;
         public Action<ARObjectSO> OnPress;
         private bool _isChosen;
-
+        
         void Awake()
         {
             _isChosen = false;
@@ -39,6 +39,12 @@ namespace Game
             SetIcon(aRObjectSO._iconSprite);
             SetName(aRObjectSO._name);
         }
+        
+        public ARObjectSO GetData()
+        {
+            return data;
+        }
+
         public void Choose()
         {
             _isChosen = true;
@@ -54,12 +60,6 @@ namespace Game
 
         public void OnPointerClick(PointerEventData eventData)
         {
-            Debug.Log("Press");
-            if(!_isChosen)
-                Choose();
-            else 
-                UnChose();
-
             OnPress?.Invoke(data);
         }
     }
