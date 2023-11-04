@@ -8,36 +8,33 @@ namespace Game
 {
     public class CustomBtn : MonoBehaviour
     {
-        [SerializeField] private Image _background;
         [SerializeField] private Image _icon;
-        [SerializeField] private Button _btn;
+        [HideInInspector] public Color _normalColor, _choseColor;
+        private Button _btn;
         private Action _action;
 
-        public Color _normalColor, _choseColor;
 
         void Awake()
         {
+            if(_btn == null)
+            {
+                _btn = GetComponent<Button>();
+            }
             _btn.onClick.AddListener(() => _action?.Invoke());
         }
 
-        public void SetChosen(bool value)
+        public virtual void SetChosen(bool value)
         {
             if(value)
             {
                 SetIconColor(_normalColor);
-                SetBackGroundColor(_choseColor);
             }
             else
             {
                 SetIconColor(_choseColor);
-                SetBackGroundColor(_normalColor);
             }
         }
 
-        public void SetBackGroundColor(Color color)
-        {
-            _background.color = color;
-        }
         public void SetIconColor(Color color)
         {
             _icon.color = color;

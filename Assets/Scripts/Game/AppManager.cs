@@ -21,7 +21,6 @@ namespace Game
     {
         [SerializeField] GameObject house;
         public static Action onCompleteStage;
-        public static Action<ARObjectSO> onChooseObject;
         public static NativeGallery.MediaSaveCallback OnSaveSSCallback;
         public AppStage AppStage { get; private set; }
         private bool _isLoaded;
@@ -30,6 +29,7 @@ namespace Game
 
         void Awake()
         {
+            UILoader.ResetData();
             AppStage = AppStage.Intro;
             onCompleteStage += NextStage;
         }

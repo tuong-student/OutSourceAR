@@ -1,31 +1,66 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Game;
+using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class InventoryElement : MonoBehaviour, IPointerClickHandler
+namespace Game
 {
-    [SerializeField] private Image icon;
-    private ARObjectSO data;
 
-    public void SetIcon(Sprite iconSprite)
+    public class InventoryElement : MonoBehaviour, IPointerClickHandler
     {
-        icon.sprite = iconSprite;
-    }
-    public void SetData(ARObjectSO aRObjectSO)
-    {
-        data = aRObjectSO;
-    }
+        [SerializeField] private Image _picture;
+        [SerializeField] private TextMeshProUGUI _name;
+        [SerializeField] private Image _stroke;
+        [SerializeField] private Color _chosenColor;
+        private ARObjectSO data;
+        public Action<ARObjectSO> OnPress;
+        private bool _isChosen;
 
-    public void OnPointerClick(PointerEventData eventData)
-    {
-        ChooseObject();
-    }
+        void Awake()
+        {
+            _isChosen = false;
+        }
 
-    public void ChooseObject()
-    {
-        AppManager.onChooseObject(data);
+        public void SetIcon(Sprite iconSprite)
+        {
+            _picture.sprite = iconSprite;
+        }
+        public void SetName(string name)
+        {
+            _name.text = data._name;
+        }
+        public void DisplayData(ARObjectSO aRObjectSO)
+        {
+            data = aRObjectSO;
+            SetIcon(aRObjectSO._iconSprite);
+            SetName(aRObjectSO._name);
+        }
+        public void Choose()
+        {
+            _isChosen = true;
+            _stroke.gameObject.SetActive(true);
+            _name.color = _chosenColor;
+        }
+        public void UnChose()
+        {
+            _isChosen = false;
+            _stroke.gameObject.SetActive(false);
+            _name.color = Color.black;
+        }
+
+        public void OnPointerClick(PointerEventData eventData)
+        {
+            Debug.Log("Press");
+            if(!_isChosen)
+                Choose();
+            else 
+                UnChose();
+
+            OnPress?.Invoke(data);
+        }
     }
 }

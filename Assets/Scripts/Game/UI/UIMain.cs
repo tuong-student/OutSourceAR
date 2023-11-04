@@ -5,7 +5,6 @@ using UnityEngine;
 using NOOD; 
 using NOOD.UI;
 using UnityEngine.UI;
-using App;
 using TMPro;
 using DG.Tweening;
 
@@ -23,11 +22,12 @@ namespace Game.UI
 	{
         [SerializeField] private Color _normalColor, _chosenColor;
         [SerializeField] private CustomBtn _electricBtn, _acBtn, _concreteBtn, _furnitureBtn;
-        [SerializeField] private Button _takeScreenshotBtn, _backBtn, _moreBtn;
-        [SerializeField] private GameObject _inventoryGO, _inventoryPanel;
+        [SerializeField] private Button _takeScreenshotBtn, _backBtn, _shopBtn;
+        [SerializeField] private GameObject _inventoryGO;
         [SerializeField] private GameObject _SSObject;
         [SerializeField] private RawImage _rawImage;
         [SerializeField] private GameObject _SSBelowPosition, _SSHidePosition;
+        [SerializeField] private GameObject _inventHidePosition, _inventShowPosition;
 
         public Func<Texture2D> OnTakeScreenshot;
 
@@ -44,7 +44,6 @@ namespace Game.UI
 		void Awake()
 		{
             // Read data from Global.data to Instantiate room
-
             _takeScreenshotBtn.onClick.AddListener(() =>
             {
                 HideUI();
@@ -53,6 +52,16 @@ namespace Game.UI
                     _screenShotImage = OnTakeScreenshot?.Invoke();
                 }, 0.2f);
             });
+            _shopBtn.onClick.AddListener(() => 
+            {
+                OpenInventory(true);
+                Debug.Log("Shop");
+            });
+
+            UIInventory.OnConfirmAction += () => 
+            {
+                OpenInventory(false);
+            };
             AppManager.OnSaveSSCallback = AnimateScreenshot;
             _electricBtn._normalColor = _normalColor;
             _acBtn._normalColor = _normalColor;
@@ -119,7 +128,7 @@ namespace Game.UI
         {
             _acBtn.gameObject.SetActive(false);
             _backBtn.gameObject.SetActive(false);
-            _moreBtn.gameObject.SetActive(false);
+            _shopBtn.gameObject.SetActive(false);
             _concreteBtn.gameObject.SetActive(false);
             _electricBtn.gameObject.SetActive(false);
             _furnitureBtn.gameObject.SetActive(false);
@@ -129,7 +138,7 @@ namespace Game.UI
         {
             _acBtn.gameObject.SetActive(true);
             _backBtn.gameObject.SetActive(true);
-            _moreBtn.gameObject.SetActive(true);
+            _shopBtn.gameObject.SetActive(true);
             _concreteBtn.gameObject.SetActive(true);
             _electricBtn.gameObject.SetActive(true);
             _furnitureBtn.gameObject.SetActive(true);
@@ -142,14 +151,15 @@ namespace Game.UI
             if(value)
             {
                 // Open
-                _inventoryPanel.SetActive(true);
-                _inventoryGO.transform.localScale = Vector3.zero;
-                _inventoryGO.transform.DOScale(1, 0.5f);
+                _inventoryGO.SetActive(true);
+                _inventoryGO.transform.DOMove(_inventShowPosition.transform.position, 0.3f);
+                UILoader.CloseUI<UISelector>();
             }
             else
             {
                 // Close
-                _inventoryGO.transform.DOScale(0, 0.2f).OnComplete(() => _inventoryPanel.SetActive(false));
+                _inventoryGO.transform.DOMove(_inventHidePosition.transform.position, 0.2f).OnComplete(() => _inventoryGO.SetActive(false));
+                UILoader.LoadUI<UISelector>();
             }
         }
 

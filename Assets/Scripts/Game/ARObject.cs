@@ -4,7 +4,7 @@ using Game.UI;
 using NOOD.UI;
 using UnityEngine;
 
-namespace App
+namespace Game 
 {
     [RequireComponent(typeof(Outline))]
     public class ARObject : MonoBehaviour

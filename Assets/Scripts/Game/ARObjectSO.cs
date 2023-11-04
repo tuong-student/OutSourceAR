@@ -2,12 +2,24 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "ARObjectSO")]
-public class ARObjectSO : ScriptableObject
+namespace Game
 {
-    public GameObject _pref;
-    public Sprite _iconSprite;
-    public string _name;
-    [TextArea(5, 5)]
-    public string _description;
+    public enum ObjectKind
+    {
+        House,
+        LivingRoom,
+        WorkingArea,
+        Kitchen
+    }
+
+    [CreateAssetMenu(fileName = "ARObjectSO")]
+    public class ARObjectSO : ScriptableObject
+    {
+        public ObjectKind _objectKind;
+        public GameObject _pref;
+        public Sprite _iconSprite;
+        public string _name;
+        [TextArea(5, 5)]
+        public string _description;
+    }
 }

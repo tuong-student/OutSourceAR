@@ -10,7 +10,9 @@ public class LayoutInfoManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI _layoutName;
     [SerializeField] private TextMeshProUGUI _size;
     [SerializeField] private TextMeshProUGUI _description;
-    [SerializeField] private TextMeshProUGUI _beds, _livingArea, _toilets;
+    [SerializeField] private Image _firstIcon;
+    [SerializeField] private TextMeshProUGUI _firstText, _livingArea, _toilets;
+    
 
     public void UpdateData(LayoutELementSO data)
     {
@@ -19,7 +21,8 @@ public class LayoutInfoManager : MonoBehaviour
         _layoutName.text = data._name;
         _size.text = data._size;
         _description.text = data._description;
-        _beds.text = data._bedNumber.ToString() + " Beds";
+        _firstIcon.sprite = data._fistIcon;
+        _firstText.text = data._firstText.ToString();
         _livingArea.text = "Living area: " + data._livingArea.ToString() + "m2";
         _toilets.text = data._toiletNumber.ToString() + " Toilets";
     }
