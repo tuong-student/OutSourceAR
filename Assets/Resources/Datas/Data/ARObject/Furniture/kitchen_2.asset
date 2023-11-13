@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0ccdbf05002154bcb868edf1e28c96dd, type: 3}
+  m_Name: kitchen_2
+  m_EditorClassIdentifier: 
+  _objectKind: 4
+  _pref: {fileID: 449495365631762035, guid: 5b0d9cd23d121724c8fa7e73ac5ab566, type: 3}
+  _iconSprite: {fileID: 21300000, guid: 5a3a617fde1495a4abfbff7a35be0afc, type: 3}
+  _name: Kitchen 2
+  _description: "Material : Oak wood - MDF board -white marble table top \r\nSink
+    : L110cm x W50cm\r\nKitchen : L73cm x W43cm\r\n\r\nKitchen accessories : \r\n-Bracket
+    Shelves \r\n-Spice Basket set\r\n-Stanless Steel Rack \r\n"

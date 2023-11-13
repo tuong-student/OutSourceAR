@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0ccdbf05002154bcb868edf1e28c96dd, type: 3}
+  m_Name: library_working3
+  m_EditorClassIdentifier: 
+  _objectKind: 3
+  _pref: {fileID: 5660633027111535846, guid: 5aacb77fee260e74684f631a2246a5cc, type: 3}
+  _iconSprite: {fileID: 21300000, guid: a9464d4837ec3384d94b95c082b7188e, type: 3}
+  _name: EZ workspace
+  _description: "Working Table : \r\nMaterial : metal frame, glass table top\r\nSize
+    : L120cm x W60cm x H75cm\r\n\r\nWall Bookshelves : \r\nMaterial : oak color MFC
+    board \r\nSize : L180cm x W30cm x H200cm\r\n\r\nDecor set : \r\nFloor m\xE1t
+    : L200cm x W160cm - material : PET & PVC \r\n"

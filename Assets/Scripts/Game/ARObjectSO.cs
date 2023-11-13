@@ -7,9 +7,12 @@ namespace Game
     public enum ObjectKind
     {
         House, // This is water pile, electric wire, air...
-        LivingRoom,
+        LivingRoomSofa,
+        LivingRoomTV,
         WorkingArea,
-        Kitchen
+        Kitchen,
+        KitchenSideTable,
+        KitchenDiningTable
     }
 
     [CreateAssetMenu(fileName = "ARObjectSO")]

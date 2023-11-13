@@ -5,6 +5,8 @@ using UnityEngine;
 using UnityEngine.UI;
 using NOOD.Extension;
 using System;
+using NOOD.UI;
+using Game.UI;
 
 namespace Game
 {
@@ -19,7 +21,7 @@ namespace Game
     public class UIInventory : MonoBehaviour
     {
         #region Event
-        public static Action OnConfirmAction;
+        public  Action OnBackAction;
         #endregion
 
         private List<InventoryElement> _inventoryElements = new List<InventoryElement>();
@@ -27,7 +29,7 @@ namespace Game
         [SerializeField] private GameObject _content;
         [SerializeField] private List<ARObjectSO> _arObjectData = new List<ARObjectSO>();
         [SerializeField] private List<ARObjectSO> _chosenObjects = new List<ARObjectSO>();
-        [SerializeField] private Button _addToYourSpaceBtn;
+        [SerializeField] private Button _backBtn, _addToYourSpaceBtn;
 
         [SerializeField] private FilterCustomBtn _all, _livingRoom, _workingArea, _kitchen;
         [SerializeField] private Color _normalColor, _chosenColor;
@@ -46,6 +48,12 @@ namespace Game
 
         private void SetBtn()
         {
+            _backBtn.onClick.AddListener(() => OnBackAction?.Invoke());
+            _addToYourSpaceBtn.onClick.AddListener(() => 
+            {
+                UILoader.GetUI<UIMain>().OnInventoryConfirm?.Invoke(_chosenObjects);
+            });
+
             _all._normalColor = _normalColor;
             _livingRoom._normalColor = _normalColor;
             _workingArea._normalColor = _normalColor;
@@ -56,10 +64,10 @@ namespace Game
             _workingArea._choseColor = _chosenColor;
             _kitchen._choseColor = _chosenColor;
 
-            _all.SetButtonAction(() => ChooseBtn(FilterType.All));
-            _livingRoom.SetButtonAction(() => ChooseBtn(FilterType.LivingRoom));
-            _workingArea.SetButtonAction(() => ChooseBtn(FilterType.WorkingArea));
-            _kitchen.SetButtonAction(() => ChooseBtn(FilterType.Kitchen));
+            _all.AddButtonAction(() => ChooseBtn(FilterType.All));
+            _livingRoom.AddButtonAction(() => ChooseBtn(FilterType.LivingRoom));
+            _workingArea.AddButtonAction(() => ChooseBtn(FilterType.WorkingArea));
+            _kitchen.AddButtonAction(() => ChooseBtn(FilterType.Kitchen));
         }
         private void ChooseBtn(FilterType filterType)
         {
@@ -100,7 +108,7 @@ namespace Game
                     DisplayDataList(_arObjectData);
                     break;
                 case FilterType.LivingRoom:
-                    List<ARObjectSO> datasToDisplay = _arObjectData.Where(x => x._objectKind == ObjectKind.LivingRoom).ToList();
+                    List<ARObjectSO> datasToDisplay = _arObjectData.Where(x => x._objectKind == ObjectKind.LivingRoomSofa).ToList();
                     DisplayDataList(datasToDisplay);
                     break;
                 case FilterType.WorkingArea:
@@ -122,7 +130,7 @@ namespace Game
                 ARObjectSO data = datasToDisplay[i];
                 if(i < _inventoryElements.Count)
                 {
-                    Debug.Log("get old");
+                    // Debug.Log("get old");
                     InventoryElement _inventoryElement;
                     _inventoryElement = _inventoryElements[i];
                     _inventoryElement.gameObject.SetActive(true);
@@ -130,7 +138,7 @@ namespace Game
                 }
                 else
                 {
-                    Debug.Log("get new");
+                    // Debug.Log("get new");
                     CreateNewInventoryElement(data);
                 }
             }
@@ -177,11 +185,6 @@ namespace Game
                     element.UnChose();
                 }
             }
-        }
-
-        private void PlaceChosenObject()
-        {
-            // Replace chosen Object
         }
     }
 }

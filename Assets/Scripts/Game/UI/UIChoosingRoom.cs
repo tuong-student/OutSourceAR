@@ -24,7 +24,7 @@ namespace Game.UI
 		public void Next()
 		{
             Close();
-            AppManager.onCompleteStage?.Invoke();
+            AppManager.OnCompleteStage?.Invoke();
         }
 	}
 }

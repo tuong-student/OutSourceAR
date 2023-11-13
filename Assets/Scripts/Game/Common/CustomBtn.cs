@@ -12,6 +12,7 @@ namespace Game
         [HideInInspector] public Color _normalColor, _choseColor;
         private Button _btn;
         private Action _action;
+        private bool value = false;
 
 
         void Awake()
@@ -21,17 +22,31 @@ namespace Game
                 _btn = GetComponent<Button>();
             }
             _btn.onClick.AddListener(() => _action?.Invoke());
+            _action += SetChosen;
+        }
+
+        public virtual void SetChosen()
+        {
+            value = !value;
+            if(value)
+            {
+                SetIconColor(_choseColor);
+            }
+            else
+            {
+                SetIconColor(_normalColor);
+            }
         }
 
         public virtual void SetChosen(bool value)
         {
             if(value)
             {
-                SetIconColor(_normalColor);
+                SetIconColor(_choseColor);
             }
             else
             {
-                SetIconColor(_choseColor);
+                SetIconColor(_normalColor);
             }
         }
 
@@ -39,9 +54,9 @@ namespace Game
         {
             _icon.color = color;
         }
-        public void SetButtonAction(Action action)
+        public void AddButtonAction(Action action)
         {
-            _action = action;
+            _action += action;
         }
     }
 }

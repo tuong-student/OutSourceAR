@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0ccdbf05002154bcb868edf1e28c96dd, type: 3}
+  m_Name: kitchen_dining table1
+  m_EditorClassIdentifier: 
+  _objectKind: 6
+  _pref: {fileID: 551563669115881412, guid: 58b7bb0325a40124a828a8a2a607bcdf, type: 3}
+  _iconSprite: {fileID: 21300000, guid: d3983c2635137854a8af0d0eff299cbe, type: 3}
+  _name: Harmony Dining Table
+  _description: "Solid distressed pine with chunky metal works legs. Set includes
+    table, bench and 2 chairs.\r\nDining Table: H 77cm x W 160cm x D 80cm.\r\nBench:
+    H 46cm x W 120cm x D 31cm.\r\nSolid wood\r\nSeats up to 2\r\nChair: H 75cm x
+    W 186cm x D 80cm.\r\nMicrofiber leather\r\nDecor set : \r\nWave LED Chandelier
+    Lighting"

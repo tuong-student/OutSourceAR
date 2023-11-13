@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0ccdbf05002154bcb868edf1e28c96dd, type: 3}
+  m_Name: kitchen_dining table3
+  m_EditorClassIdentifier: 
+  _objectKind: 6
+  _pref: {fileID: 3033801516754341288, guid: cf8d966dbe3da6f4da50343e7f04df3d, type: 3}
+  _iconSprite: {fileID: 21300000, guid: 78a4d1226a8f6de45844356c9d8f6b89, type: 3}
+  _name: 90s Dining Table
+  _description: "Dining table combines the timeless charm of country aesthetics with
+    the contemporary appeal of a sleek design. \r\nBrown oak\r\nSet includes table
+    and 4 chairs. \r\nDining Table : H 75cm x W 170cm x D 90cm\r\nChair : H 84.5cm
+    x W 58cm x D 61.5cm\r\nDecor set : \r\nClassic Chandelier Lighting "

@@ -20,6 +20,15 @@ namespace Game.UI
 
 	public class UIMain : NoodUI 
 	{
+        #region Events
+        public Action OnBackAction;
+        public Action OnElectricBtn;
+        public Action OnTakeScreenshot;
+        public Action<Texture2D> OnScreenShotSuccess;
+        public Action<List<ARObjectSO>> OnInventoryConfirm;
+        #endregion
+
+        [SerializeField] private GameObject _buttonZone;
         [SerializeField] private Color _normalColor, _chosenColor;
         [SerializeField] private CustomBtn _electricBtn, _acBtn, _concreteBtn, _furnitureBtn;
         [SerializeField] private Button _takeScreenshotBtn, _backBtn, _shopBtn;
@@ -28,8 +37,8 @@ namespace Game.UI
         [SerializeField] private RawImage _rawImage;
         [SerializeField] private GameObject _SSBelowPosition, _SSHidePosition;
         [SerializeField] private GameObject _inventHidePosition, _inventShowPosition;
+        [SerializeField] private UIInventory _uiInventory;
 
-        public Func<Texture2D> OnTakeScreenshot;
 
         private UIDebug _uiDebug;
         private UISelector _uiSelector;
@@ -43,13 +52,12 @@ namespace Game.UI
 
 		void Awake()
 		{
-            // Read data from Global.data to Instantiate room
             _takeScreenshotBtn.onClick.AddListener(() =>
             {
                 HideUI();
                 NoodyCustomCode.StartDelayFunction(() =>
                 {
-                    _screenShotImage = OnTakeScreenshot?.Invoke();
+                    OnTakeScreenshot?.Invoke();
                 }, 0.2f);
             });
             _shopBtn.onClick.AddListener(() => 
@@ -57,10 +65,18 @@ namespace Game.UI
                 OpenInventory(true);
                 Debug.Log("Shop");
             });
-
-            UIInventory.OnConfirmAction += () => 
+            OnInventoryConfirm += (aRObjectSOs) => 
+            {
+                // Close inventory
+                OpenInventory(false);
+            };
+            _uiInventory.OnBackAction += () =>
             {
                 OpenInventory(false);
+            };
+            OnScreenShotSuccess += (Texture2D image) => 
+            {
+                _screenShotImage = image;
             };
             AppManager.OnSaveSSCallback = AnimateScreenshot;
             _electricBtn._normalColor = _normalColor;
@@ -79,12 +95,14 @@ namespace Game.UI
             // _uiDebug = UILoader.LoadUI<UIDebug>();
             _uiSelector = UILoader.LoadUI<UISelector>();
 
-            _electricBtn.SetChosen(false);
-            _acBtn.SetChosen(false);
-            _concreteBtn.SetChosen(false);
-            _furnitureBtn.SetChosen(false);
-
             SetBtnAction();
+            OnInventoryConfirm += (list) => 
+            {
+                _electricBtn.SetChosen(false);
+                _acBtn.SetChosen(false);
+                _concreteBtn.SetChosen(false);
+                _furnitureBtn.SetChosen(true);
+            };
         }
 
         void Update()
@@ -94,7 +112,6 @@ namespace Game.UI
             {
                 if(hit.collider.TryGetComponent<ARObject>(out ARObject aRObject))
                 {
-                    aRObject.ActiveOutlineAndShowInfo(true);
 
                     if(_previousObj == null)
                     {
@@ -108,6 +125,7 @@ namespace Game.UI
                             _previousObj = aRObject;
                         }
                     }
+                    aRObject.ActiveOutlineAndShowInfo(true);
                 }
                 else
                 {
@@ -124,29 +142,27 @@ namespace Game.UI
             }
         }
         
+        void OnDisable()
+        {
+            UILoader.CloseUI<UIInfoPanel>();
+        }
+        
         public void HideUI()
         {
-            _acBtn.gameObject.SetActive(false);
             _backBtn.gameObject.SetActive(false);
             _shopBtn.gameObject.SetActive(false);
-            _concreteBtn.gameObject.SetActive(false);
-            _electricBtn.gameObject.SetActive(false);
-            _furnitureBtn.gameObject.SetActive(false);
-            _takeScreenshotBtn.gameObject.SetActive(false);
+            _buttonZone.gameObject.SetActive(false);
         }
         public void ShowUI()
         {
-            _acBtn.gameObject.SetActive(true);
             _backBtn.gameObject.SetActive(true);
             _shopBtn.gameObject.SetActive(true);
-            _concreteBtn.gameObject.SetActive(true);
-            _electricBtn.gameObject.SetActive(true);
-            _furnitureBtn.gameObject.SetActive(true);
-            _takeScreenshotBtn.gameObject.SetActive(true);
+            _buttonZone.gameObject.SetActive(true);
         }
 
         public void OpenInventory(bool value)
         {
+            UILoader.CloseUI<UIInfoPanel>();
             _inventoryGO.transform.DOKill();
             if(value)
             {
@@ -169,6 +185,7 @@ namespace Game.UI
             Ray raycast = camera.ScreenPointToRay(_uiSelector.AimPosition);
             if (Physics.Raycast(raycast, out RaycastHit raycastHit))
             {
+                raycastHit.transform.gameObject.SetActive(false);
                 return raycastHit.point;
             }
             else
@@ -201,57 +218,24 @@ namespace Game.UI
 
         private void SetBtnAction()
         {
-            _electricBtn.SetButtonAction(() =>
+            _backBtn.onClick.AddListener(() => OnBackAction?.Invoke());
+            _electricBtn.AddButtonAction(() =>
             {
-                ChooseBtn(BtnType.Electric);
-                HouseManager.Instance.ShowObject(ObjectType.Electricity);
+                OnElectricBtn?.Invoke();
+                HouseManager.Instance.ChangeShowObject(ObjectType.Electricity);
             });
-            _acBtn.SetButtonAction(() =>
+            _acBtn.AddButtonAction(() =>
             {
-                ChooseBtn(BtnType.AC);
-                HouseManager.Instance.ShowObject(ObjectType.AC);
+                HouseManager.Instance.ChangeShowObject(ObjectType.AC);
             });
-            _concreteBtn.SetButtonAction(() =>
+            _concreteBtn.AddButtonAction(() =>
             {
-                ChooseBtn(BtnType.Concrete);
-                HouseManager.Instance.ShowObject(ObjectType.Concrete);
+                HouseManager.Instance.ChangeShowObject(ObjectType.Concrete);
             });
-            _furnitureBtn.SetButtonAction(() =>
+            _furnitureBtn.AddButtonAction(() =>
             {
-                ChooseBtn(BtnType.Furniture);
-                HouseManager.Instance.ShowObject(ObjectType.Furniture);
+                HouseManager.Instance.ChangeShowObject(ObjectType.Furniture);
             });
-        }
-
-		private void ChooseBtn(BtnType btnType)
-		{
-            switch (btnType)
-            {
-                case BtnType.Electric:
-                    _electricBtn.SetChosen(true);
-					_acBtn.SetChosen(false);
-					_concreteBtn.SetChosen(false);
-					_furnitureBtn.SetChosen(false);
-                    break;
-                case BtnType.AC:
-                    _electricBtn.SetChosen(false);
-					_acBtn.SetChosen(true);
-					_concreteBtn.SetChosen(false);
-					_furnitureBtn.SetChosen(false);
-                    break;
-                case BtnType.Concrete:
-                    _electricBtn.SetChosen(false);
-					_acBtn.SetChosen(false);
-					_concreteBtn.SetChosen(true);
-					_furnitureBtn.SetChosen(false);
-                    break;
-                case BtnType.Furniture:
-                    _electricBtn.SetChosen(false);
-					_acBtn.SetChosen(false);
-					_concreteBtn.SetChosen(false);
-					_furnitureBtn.SetChosen(true);
-                    break;
-            }
         }
     }
 }

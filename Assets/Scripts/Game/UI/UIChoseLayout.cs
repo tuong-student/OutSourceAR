@@ -12,6 +12,7 @@ namespace Game.UI
 	public class UIChoseLayout : NoodUI 
 	{
         [SerializeField] private Button _button;
+        [SerializeField] private GameObject _infoZone;
         [SerializeField] private ScrollRect _scrollRect;
         [SerializeField] private List<LayoutElement> _layoutElements = new List<LayoutElement>();
         [SerializeField] private LayoutInfoManager _layoutInfoManager;
@@ -28,6 +29,7 @@ namespace Game.UI
             _button.onClick.AddListener(Next);
             _scrollRect.onValueChanged.AddListener(UpdatePositionX);
             _layoutInfoManager ??= GetComponent<LayoutInfoManager>();
+            _infoZone.SetActive(false);
         }
 
         private void UpdatePositionX(Vector2 vector2)
@@ -38,7 +40,7 @@ namespace Game.UI
 		public void Next()
 		{
             Close();
-            AppManager.onCompleteStage?.Invoke();
+            AppManager.OnCompleteStage?.Invoke();
         }
 
 		public void SetChosenLayoutElement(LayoutElement layoutElement)
@@ -55,6 +57,7 @@ namespace Game.UI
             Debug.Log("_chosenLayoutElement null: " + _chosenLayoutElement == null);
             ScrollToElementLoop(_layoutElements.IndexOf(_chosenLayoutElement));
             _layoutInfoManager.UpdateData(layoutElement.GetData());
+            _infoZone.SetActive(true);
         }
 
 		public void ScrollToElementLoop(int elementIndex)

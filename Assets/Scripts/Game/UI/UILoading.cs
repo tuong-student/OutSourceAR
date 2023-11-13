@@ -43,7 +43,7 @@ namespace Game.UI
 
         public void SetOnCompleteAction(Action action)
         {
-            OnComplete += action;
+            OnComplete = action;
         }
 	}
 }

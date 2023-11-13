@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0ccdbf05002154bcb868edf1e28c96dd, type: 3}
+  m_Name: kitchen_dining table2
+  m_EditorClassIdentifier: 
+  _objectKind: 6
+  _pref: {fileID: 2450461011149766353, guid: a304aefd981257e48bf3e0bb94bffe89, type: 3}
+  _iconSprite: {fileID: 21300000, guid: fae3e83135fb4d2418961565657f059a, type: 3}
+  _name: Smoked Dining Table
+  _description: "1/2\" Thick Smoked Black Tempered Glass Top\r\nMatte Black Powder-Coated
+    Steel Base.\r\nSet includes table, bench and 2 chairs.\r\nDining Table: H 77cm
+    x W 160cm x D 80cm.\r\nBench: H 46cm x W 120cm x D 31cm.\r\nEasy build\r\nSeats
+    up to 4\r\nSolid wood\r\nLifetime guarantee\r\nChair: H 75cm x W 186cm x D 80cm.\r\nDecor
+    set : \r\nCylinder Chandelier Lighting"

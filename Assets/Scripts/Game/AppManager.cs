@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using Game.UI;
@@ -22,18 +23,19 @@ namespace Game
     {
         [SerializeField] private Transform _kitchenHolder, _livingRoomHolder, _workingAreaHolder;
         [SerializeField] GameObject house;
-        public static Action onCompleteStage;
+        public static Action OnCompleteStage;
         public static NativeGallery.MediaSaveCallback OnSaveSSCallback;
         public AppStage AppStage { get; private set; }
         private bool _isLoaded;
         [SerializeField] private ARPlaneManager _aRPlaneManager;
         private GameObject chosenObject;
+        private GameObject _cloneHouse;
 
         void Awake()
         {
             UILoader.ResetData();
             AppStage = AppStage.Intro;
-            onCompleteStage += NextStage;
+            OnCompleteStage += NextWindow;
         }
 
         // Update is called once per frame
@@ -52,7 +54,7 @@ namespace Game
                 {
                     case ObjectKind.House:
                         break;
-                    case ObjectKind.LivingRoom:
+                    case ObjectKind.LivingRoomSofa:
                         Destroy(_livingRoomHolder.transform.GetChild(0).gameObject);
                         Instantiate(model, _livingRoomHolder);
                         break;
@@ -89,7 +91,9 @@ namespace Game
                     break;
                 case AppStage.Showing:
                     // Main active of the app
-                    UILoader.LoadUI<UIMain>().OnTakeScreenshot += TakeScreenshot;
+                    UIMain uiMain = UILoader.LoadUI<UIMain>();
+                    uiMain.OnTakeScreenshot += TakeScreenshot;
+                    uiMain.OnBackAction += ReturnChoseLayout;
                     NoodyCustomCode.StartDelayFunction(LoadHouse, 0.2f);
                     NoodyCustomCode.StartDelayFunction(GetTransform, 0.3f);
                     _aRPlaneManager.enabled = false;
@@ -113,24 +117,47 @@ namespace Game
         {
             UIMain uIMain = UILoader.GetUI<UIMain>();
             Vector3 position = uIMain.GetRaycastPosition();
-            position.y += 0.01f;
+            if(_cloneHouse != null)
+            {
+                _cloneHouse.SetActive(true);
+            }
+            else
+                _cloneHouse = Instantiate(house, position, Quaternion.identity);
 
-            Instantiate(house, position, Quaternion.identity);
         }
 
 
-        private void NextStage()
+        private void NextWindow()
         {
             AppStage++;
             Debug.Log(AppStage.ToString());
             _isLoaded = false;
         }
-
-        private Texture2D TakeScreenshot()
+        private void BackWindow()
         {
-            Texture2D image = ScreenCapture.CaptureScreenshotAsTexture();
+            AppStage--;
+            _isLoaded = false;
+        }
+        private void ReturnChoseLayout()
+        {
+            UILoader.CloseUI<UIMain>();
+            _cloneHouse.SetActive(false);
+            AppStage = AppStage.ChoosingLayout;
+            _isLoaded = false;
+        }
+
+        private void TakeScreenshot()
+        {
+            Texture2D image = null;
+            StartCoroutine(TakeScreenShotCR(image));
+        }
+
+        IEnumerator TakeScreenShotCR(Texture2D image)
+        {
+            yield return new WaitForEndOfFrame();
+            image = ScreenCapture.CaptureScreenshotAsTexture();
+            UILoader.GetUI<UIMain>().OnScreenShotSuccess?.Invoke(image);
             NativeGallery.SaveImageToGallery(image, "ARApp", "ScreenCapture", OnSaveSSCallback);
-            return image;
         }
     }
 

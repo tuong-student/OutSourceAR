@@ -11,6 +11,7 @@ namespace Game
     {
         Outline _outline;
         [SerializeField] private ARObjectSO _data;
+        private bool _isShowInfo = false;
 
         void Awake()
         {
@@ -23,21 +24,28 @@ namespace Game
             if(value)
             {
                 _outline.enabled = value;
-                if(_data == null)
+                if(_data != null && _isShowInfo == false)
                 {
                     UILoader.LoadUI<UIInfoPanel>().SetInfoAndName(_data._name, _data._description);
+                    _isShowInfo = true;
                 }
             }
             else
             {
                 _outline.enabled = false;
                 UILoader.CloseUI<UIInfoPanel>();
+                _isShowInfo = false;
             }
         }
 
         public string GetInfo()
         {
             return name;
+        }
+
+        public ARObjectSO GetData()
+        {
+            return _data;
         }
     }
 }

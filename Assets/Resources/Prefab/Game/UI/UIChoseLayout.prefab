@@ -326,9 +326,9 @@ RectTransform:
   - {fileID: 5457354636262776158}
   m_Father: {fileID: 3478141522218913551}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 2470, y: -735}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 1040, y: 1470}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &5557740690981259191
@@ -419,8 +419,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -3.9915771, y: 35.352722}
-  m_SizeDelta: {x: -152.4192, y: -153.5734}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &1430222570175005019
 CanvasRenderer:
@@ -709,7 +709,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 53m2
+  m_text: 
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: d26260de98b624502905d34881383ee8, type: 2}
   m_sharedMaterial: {fileID: -8639306979273064218, guid: d26260de98b624502905d34881383ee8, type: 2}
@@ -815,7 +815,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -4797.7217, y: 0}
+  m_AnchoredPosition: {x: -3020.001, y: 0}
   m_SizeDelta: {x: 0, y: 1400}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &4166364507574494180
@@ -968,9 +968,9 @@ RectTransform:
   - {fileID: 7421189822148403680}
   m_Father: {fileID: 3478141522218913551}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 960, y: -735}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 1040, y: 1470}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &1466482752419132857
@@ -1199,6 +1199,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _button: {fileID: 7612026522962723809}
+  _infoZone: {fileID: 2840295069306810252}
   _scrollRect: {fileID: 6867752653841228401}
   _layoutElements:
   - {fileID: 480138471817238701}
@@ -1873,7 +1874,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Studio apartment
+  m_text: 
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 96370e16a9a3040a69f12f7119e371e9, type: 2}
   m_sharedMaterial: {fileID: 4105747348240583356, guid: 96370e16a9a3040a69f12f7119e371e9, type: 2}
@@ -2453,9 +2454,9 @@ RectTransform:
   - {fileID: 9077169387320369220}
   m_Father: {fileID: 3478141522218913551}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 3980, y: -735}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 1040, y: 1470}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &2570596236010718148
@@ -3085,8 +3086,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
-    tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+  m_text: 
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 96370e16a9a3040a69f12f7119e371e9, type: 2}
   m_sharedMaterial: {fileID: 4105747348240583356, guid: 96370e16a9a3040a69f12f7119e371e9, type: 2}
@@ -3257,7 +3257,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: f1ad32757b21bb142b1d1752b2cfdea8, type: 3}
+  m_Sprite: {fileID: 21300000, guid: f9a5d089a31670d44944ec9850725852, type: 3}
   m_Type: 0
   m_PreserveAspect: 1
   m_FillCenter: 1

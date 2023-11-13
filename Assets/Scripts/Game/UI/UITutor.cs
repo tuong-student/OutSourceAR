@@ -23,8 +23,9 @@ namespace Game.UI
             _plusBtn.onClick.AddListener(PressBtn);
         }
 
-        private void Start()
+        void OnEnable()
         {
+            ShowTutorAndText();
         }
 
         private void Update()
@@ -48,7 +49,7 @@ namespace Game.UI
 
         public void Next()
         {
-            AppManager.onCompleteStage?.Invoke();
+            AppManager.OnCompleteStage?.Invoke();
         }
 
         public void PressBtn()
@@ -57,7 +58,8 @@ namespace Game.UI
             {
                 UILoader.CloseUI<UIFooterPopup>();
                 Close();
-                UILoader.LoadUI<UILoading>().SetOnCompleteAction(Next);
+                Next();
+                UILoader.LoadUI<UILoading>().SetOnCompleteAction(null);
             }
             else
             {
